@@ -1,0 +1,89 @@
+﻿<Window x:Class="WPF_Serial_Ver_1_00.MainWindow"
+        x:Name="Main_WPF"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_Serial_Ver_1_00"
+        xmlns:VM="clr-namespace:WPF_Serial_Ver_1_00.ViewModel"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Title="Temperature Monitor V1.00"  Height="500" Width="800" Background="#FF2D2D2D" BorderBrush="Aqua" BorderThickness="2">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="Button_settings_1">
+            <Setter Property="Background" Value="#FF323232"></Setter>
+            <Setter Property="Width" Value="260"></Setter>
+            <Setter Property="Height" Value="55"></Setter>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="BorderBrush" Value="#FF948E8E"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" x:Name="Warning_Field">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource Button_settings_1}" Grid.Row="0" Grid.Column="0" Content="Connect device..." FontSize="22" HorizontalAlignment="Center" FontFamily="Verdana" Click="Scan_Click" Foreground="White" VerticalAlignment="Center" />
+            <Image Grid.Row="0" Grid.Column="1" Source="/warning-icon-png-2766-Windows.ico" Width="75" Height="75" Visibility="{Binding Path = OVT_Visible}"/>
+            <Button Style="{StaticResource Button_settings_1}" Grid.Row="0" Grid.Column="2" Content="Reset" FontSize="22" HorizontalAlignment="Center" FontFamily="Verdana" Foreground="White" VerticalAlignment="Center" Click="TMax_Reset" />
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,0,0,2" x:Name="Temp_Panel">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.2*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.RowSpan="5" Grid.ColumnSpan="4" CornerRadius="12" BorderBrush="Red" BorderThickness="3" Margin="5,0,5,0"></Border>
+            <Label Grid.Row="0" Grid.ColumnSpan="4" Content ="Exhaust temperatures" FontSize="32" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="55" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="1" Grid.Column="0" Content ="Channel 1" FontSize="26" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="1" Grid.Column="1" Content ="Channel 2" FontSize="26" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="1" Grid.Column="2" Content ="Channel 3" FontSize="26" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="1" Grid.Column="3" Content ="Channel 4" FontSize="26" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="2" Grid.Column="0" Content ="{Binding Path= Temp_1_GUI_Value}" FontSize="24" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="2" Grid.Column="1" Content ="{Binding Path= Temp_2_GUI_Value}" FontSize="24" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="2" Grid.Column="2" Content ="{Binding Path= Temp_3_GUI_Value}" FontSize="24" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="2" Grid.Column="3" Content ="{Binding Path= Temp_4_GUI_Value}" FontSize="24" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="3" Grid.Column="0" Content ="Ch1 Max." FontSize="20" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="3" Grid.Column="1" Content ="Ch2 Max." FontSize="20" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="3" Grid.Column="2" Content ="Ch3 Max." FontSize="20" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="3" Grid.Column="3" Content ="Ch4 Max." FontSize="20" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="4" Grid.Column="0" Content ="{Binding Path= Temp_1_GUI_Max}" FontSize="20" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="4" Grid.Column="1" Content ="{Binding Path= Temp_2_GUI_Max}" FontSize="20" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="4" Grid.Column="2" Content ="{Binding Path= Temp_3_GUI_Max}" FontSize="20" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+            <Label Grid.Row="4" Grid.Column="3" Content ="{Binding Path= Temp_4_GUI_Max}" FontSize="20" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+
+        </Grid>
+        <Grid Grid.Row="2" x:Name="CDC_Panel">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="80*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.RowSpan="5" Grid.ColumnSpan="4" CornerRadius="12" BorderBrush="Red" BorderThickness="3" Margin="5,10,5,10"></Border>
+            <Label Grid.Row="2" Grid.Column="0" Content ="Status:" FontSize="24" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Width="450" Height="50" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" />
+            <Label Content ="{Binding Path=CDC_Status_Field}"   Grid.Row="2" Grid.Column="1" FontSize="24" Foreground="#FFD2D2D2" HorizontalAlignment="Center" Width="600" Height="50" VerticalAlignment="Center" VerticalContentAlignment="Top" />
+        </Grid>
+
+        <Button Style="{StaticResource Button_settings_1}" Grid.Row="3" Click="Button_Click">
+            <StackPanel Width="180" Orientation="Horizontal">
+                <Image Source="/exit_bw.ico" Width="45" Height="45"/>
+                <Label FontSize="25" Content="Exit" Width="140" Height="50" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+</Window>
